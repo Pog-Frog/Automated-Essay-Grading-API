@@ -1,0 +1,53 @@
+{
+	"info": {
+		"_postman_id": "6383bb52-fb93-48e9-9545-24e0843b3769",
+		"name": "Essay Grading API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20331745"
+	},
+	"item": [
+		{
+			"name": "Grading_API_1",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true,
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"student_answer\": \"7amo is watching the child play\",\n    \"correct_answer\": \"A man is observing\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3759/grade",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3759",
+					"path": [
+						"grade"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,8 @@
+*.pyc
+*.pickle
+*.csv
+*.tsv
+*.zip
+.idea
+__pycache__
+venv
