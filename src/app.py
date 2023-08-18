@@ -8,6 +8,12 @@ import numpy as np
 from configs.config import MODEL_NAME, LABELS as labels, configs
 from models.grading_model import ModelSkeleton
 import tensorflow as tf
+from fastapi.openapi.docs import (
+    get_redoc_html,
+    get_swagger_ui_html,
+    get_swagger_ui_oauth2_redirect_html,
+)
+from fastapi.staticfiles import StaticFiles
 
 
 model = tf.keras.models.load_model(MODEL_NAME)
@@ -27,7 +33,7 @@ def predict_similarity(sentence_a, sentence_b):
 app = FastAPI(
     title="Quizzix AutoGrading_API",
     description="The AutoGrading API is a powerful tool that provides a simplified interface for integrating automated essay grading capabilities into educational applications, leveraging state-of-the-art NLP models such as BERT for accurate and efficient evaluation of student essays.",
-    version="0.1.0"
+    version="0.1.0", docs_url=None, redoc_url=None
 )
 
 origins = ['*']
@@ -47,6 +53,23 @@ class GradingResponse(BaseModel):
 class GradingRequest(BaseModel):
     student_answer: str 
     correct_answer: str 
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+
+@app.get("/docs", include_in_schema=False)
+async def custom_swagger_ui_html():
+    return get_swagger_ui_html(
+        openapi_url=app.openapi_url,
+        title=app.title + " - Swagger UI",
+        oauth2_redirect_url=app.swagger_ui_oauth2_redirect_url,
+        swagger_js_url="../static/swagger-ui-bundle.js",
+        swagger_css_url="../static/swagger-ui.css",
+    )
+
+@app.get(app.swagger_ui_oauth2_redirect_url, include_in_schema=False)
+async def swagger_ui_redirect():
+    return get_swagger_ui_oauth2_redirect_html()
 
 
 @app.get(path="/")
